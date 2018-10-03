@@ -13,6 +13,16 @@ Library.prototype.isBookInLibrary = function (oBook){
     return false
 };
 
+// Display book details on page.
+Library.prototype.showBookDetails = function () {
+  for(i=0; i < this.bookshelf.length; i++) {
+    for (var p in this.bookshelf[i]) {
+      document.getElementById("details").innerHTML += p + ": " + this.bookshelf[i][p] + "<br />";
+    };
+    document.getElementById("details").innerHTML +="<br />";
+  }
+}
+
 // Add a book to my Library's bookshelf.
 // Return true if it is not already added, false if already added.
 Library.prototype.addBook = function (oBook) {
@@ -157,24 +167,27 @@ document.getElementById("demo").innerHTML += testBook5.title + "</br>";
 
 // LOCAL STORAGE //
 Library.prototype.storeLibrary = function (){
-  var JSONLibrary = JSON.stringify(this.bookshelf);
-  window.localStorage.setItem("testLibrary", JSONLibrary);
-  console.log(JSONLibrary);
+  // Check browser support
+  if (typeof(Storage) !== "undefined") {
+      // Store
+      var JSONLibrary = JSON.stringify(this.bookshelf);
+      window.localStorage.setItem("testLibrary", JSONLibrary);
+      console.log(JSONLibrary);
+  } else {
+      document.getElementById("local").innerHTML = "Sorry, your browser does not support Web Storage...";
+  }
 }
 
 Library.prototype.getLibrary = function () {
-  var getItem = window.localStorage.getItem("testLibrary");
-  console.log(getItem);
-  var item = JSON.parse(getItem);
-  console.log(item);
-}
-
-// Check browser support
-if (typeof(Storage) !== "undefined") {
-    // Store
-    localStorage.setItem("test1", testBookArray);
-    // Retrieve
-    document.getElementById("local").innerHTML = localStorage.getItem("test1");
-} else {
-    document.getElementById("local").innerHTML = "Sorry, your browser does not support Web Storage...";
+  // Check browser support
+  if (typeof(Storage) !== "undefined") {
+      // Retrieve
+      var getItem = window.localStorage.getItem("testLibrary");
+      console.log(getItem);
+      var item = JSON.parse(getItem);
+      console.log(item);
+      this.bookshelf = item;
+  } else {
+      document.getElementById("local").innerHTML = "Sorry, your browser does not support Web Storage...";
+  }
 }
