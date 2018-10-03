@@ -154,3 +154,27 @@ document.getElementById("demo").innerHTML += testBook2.title + "</br>";
 document.getElementById("demo").innerHTML += testBook3.title + "</br>";
 document.getElementById("demo").innerHTML += testBook4.title + "</br>";
 document.getElementById("demo").innerHTML += testBook5.title + "</br>";
+
+// LOCAL STORAGE //
+Library.prototype.storeLibrary = function (){
+  var JSONLibrary = JSON.stringify(this.bookshelf);
+  window.localStorage.setItem("testLibrary", JSONLibrary);
+  console.log(JSONLibrary);
+}
+
+Library.prototype.getLibrary = function () {
+  var getItem = window.localStorage.getItem("testLibrary");
+  console.log(getItem);
+  var item = JSON.parse(getItem);
+  console.log(item);
+}
+
+// Check browser support
+if (typeof(Storage) !== "undefined") {
+    // Store
+    localStorage.setItem("test1", testBookArray);
+    // Retrieve
+    document.getElementById("local").innerHTML = localStorage.getItem("test1");
+} else {
+    document.getElementById("local").innerHTML = "Sorry, your browser does not support Web Storage...";
+}
