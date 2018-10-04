@@ -27,14 +27,14 @@ Library.prototype.showBookDetails = function () {
 // Return true if it is not already added, false if already added.
 Library.prototype.addBook = function (oBook) {
   if (this.isBookInLibrary(oBook)) {
-    console.log("Sorry, this book is already in our library");
+    console.log("Sorry, " + "\""+oBook.title+"\"" +  " is already in our library");
     return false;
   } else if (typeof oBook !== "object") {
     console.log("Please enter in a book object");
     return false;
   } else {
     this.bookshelf.push(oBook);
-    console.log("You succesfully added a new Book!");
+    console.log("You succesfully added something to the library!");
     return true;
     }
 };
@@ -100,13 +100,27 @@ Library.prototype.getBookByAuthor = function(authorName){
 // Takes multiple books, in the form of an array of book objects, and adds the objects to my bookshelf array.
 // Return number of books succesfully added, 0 is no books were added.
 Library.prototype.addBooks = function(booksArray){
-  if (booksArray.length >= 0) {
-    gLibrary.bookshelf = this.bookshelf.concat(booksArray);
-    console.log(booksArray.length + " Books Succesfully Added");
-    return true;
+  var counter = 0;
+  for (i=0; i < booksArray.length; i++) {
+    if (this.isBookInLibrary(booksArray[i]) == false) {
+      this.addBook(booksArray[i]);
+      counter++;
+    } else {
+      console.log("Sorry, " + "\""+booksArray[i].title+"\"" +  " is already in our library");
+    }
   }
-    console.log("Please enter in a proper array.");
-  }
+  return console.log(counter + " new books were added.");
+}
+
+
+  // Merge two arrays together, this method does not check for duolicate books.
+  // if (booksArray.length >= 0) {
+  //   gLibrary.bookshelf = this.bookshelf.concat(booksArray);
+  //   console.log(booksArray.length + " Books Succesfully Added");
+  //   return true;
+  // }
+  //   console.log("Please enter in a proper array.");
+  // }
 
 //Find the distinct author's name from all books in your library.
 //Return array of strings of the names of all distinct authors, empty array if no books exist or no authors exist.
@@ -142,12 +156,14 @@ document.addEventListener("DOMContentLoaded", function(e){
 
 
 
+
+
 // TESTING GROUND //
 var testBook1 = new book("testBook1", "Jose", 1, 2018);
 var testBook2 = new book("testBook2", "Charles", 1, 2019);
-var testBook3 = new book("testBook3", "John", 10, 2012);
+var testBook3 = new book("testBook3", "Eddie", 10, 2012);
 var testBook4 = new book("testBook4", "Eddie", 14, 2015);
-var testBook5 = new book("testBook5", "Eddie", 14, 2015);
+var testBook5 = new book("testBook5", "Lee", 14, 2015);
 
 var testBookArray =
   [
