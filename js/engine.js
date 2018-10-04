@@ -1,7 +1,18 @@
+ (function () {
+  // Instance stores a reference to the Singleton
+  var instance;
+
+  Library = function() {
+    if (instance) {
+      return instance;
+    }
+    instance = this;
+  };
+})();
+
 function Library(){
   this.bookshelf = new Array();
 };
-
 
 //Additional functions///
 // Check to see if book is already in the library.
@@ -15,7 +26,7 @@ Library.prototype.isBookInLibrary = function (oBook){
 
 // Display book details on page.
 Library.prototype.showBookDetails = function () {
-  for(i=0; i < this.bookshelf.length; i++) {
+  for(var i=0; i < this.bookshelf.length; i++) {
     for (var p in this.bookshelf[i]) {
       document.getElementById("details").innerHTML += p + ": " + this.bookshelf[i][p] + "<br />";
     };
@@ -42,7 +53,7 @@ Library.prototype.addBook = function (oBook) {
 // Remove a book from the library using its getBookByTitle
 //  Return true if book is removed, false if no books match.
 Library.prototype.removeBookByTitle = function (title){
-  for (i=0; i < this.bookshelf.length; i++){
+  for ( var i=0; i < this.bookshelf.length; i++){
     if (title === this.bookshelf[i]["title"]){
       this.bookshelf.splice(i, 1);
       console.log("Book " + "\""+title+"\"" + " successfully removed.");
@@ -57,7 +68,7 @@ Library.prototype.removeBookByTitle = function (title){
 // Remove specific book or books by a certain author.
 // Return true if book is removed and false if no books match.
 Library.prototype.removeBookByAuthor = function(authorName){
-  for (i=0; i < this.bookshelf.length; i++){
+  for (var i=0; i < this.bookshelf.length; i++){
     // console.log(authorName);
     // console.log(this.bookshelf[i]["author"]);
     if (authorName == this.bookshelf[i]["author"]){
@@ -101,7 +112,7 @@ Library.prototype.getBookByAuthor = function(authorName){
 // Return number of books succesfully added, 0 is no books were added.
 Library.prototype.addBooks = function(booksArray){
   var counter = 0;
-  for (i=0; i < booksArray.length; i++) {
+  for (var i=0; i < booksArray.length; i++) {
     if (this.isBookInLibrary(booksArray[i]) == false) {
       this.addBook(booksArray[i]);
       counter++;
@@ -127,7 +138,7 @@ Library.prototype.addBooks = function(booksArray){
 Library.prototype.getAuthors = function(){
   //create list of all authors.
   var allAuthors = [];
-  for (i=0; i < this.bookshelf.length; i++) {
+  for (var i=0; i < this.bookshelf.length; i++) {
     allAuthors[i] = this.bookshelf[i].author;
   }
   //make sure there are only unique authors, and display them.
@@ -152,18 +163,16 @@ Library.prototype.getRandomAuthor = function(){
 // console.log(window.bookshelf);
 document.addEventListener("DOMContentLoaded", function(e){
   window.gLibrary = new Library();
-})
-
-
+});
 
 
 
 // TESTING GROUND //
-var testBook1 = new book("testBook1", "Jose", 1, 2018);
-var testBook2 = new book("testBook2", "Charles", 1, 2019);
-var testBook3 = new book("testBook3", "Eddie", 10, 2012);
-var testBook4 = new book("testBook4", "Eddie", 14, 2015);
-var testBook5 = new book("testBook5", "Lee", 14, 2015);
+var testBook1 = new book("testBook1", "Jose", 1, "2019") ;
+var testBook2 = new book("testBook2", "Charles", 1, "2019");
+var testBook3 = new book("testBook3", "Eddie", 10, "2012");
+var testBook4 = new book("testBook4", "Eddie", 14, "2015");
+var testBook5 = new book("testBook5", "Lee", 14, "2015");
 
 var testBookArray =
   [
