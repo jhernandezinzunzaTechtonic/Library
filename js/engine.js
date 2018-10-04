@@ -25,16 +25,39 @@ Library.prototype.isBookInLibrary = function (oBook){
     }
     return false
 };
-
-// Display book details on page.
-Library.prototype.showLibraryDetails = function () {
-  for(var i=0; i < this.bookshelf.length; i++) {
-    for (var p in this.bookshelf[i]) {
-      document.getElementById("details").innerHTML += p + ": " + this.bookshelf[i][p] + "<br />";
-    };
-    document.getElementById("details").innerHTML +="<br />";
-  }
+// Display a single books details on page.
+Library.prototype.showBookDetails = function (oBook) {
+  var bookString = "";
+      bookString += "<h3> Title: " + oBook.title + "</h3>" ;
+      bookString += "Author: " + oBook.author + "<br />";
+      bookString += "Pages: " + oBook.numberOfPages + "<br />";
+      bookString += "Date Published: "+ oBook.publishDate + "<br />";
+  document.getElementById("details").innerHTML = bookString;
 }
+
+
+// Display the entire library's details on page.
+Library.prototype.showLibraryDetails = function () {
+  var libraryString = "<h1>Library:</h1>";
+    for (var key in this.bookshelf) {
+      libraryString += "<h3> Title: " + this.bookshelf[key].title + "</h3>" ;
+      libraryString += "Author: " + this.bookshelf[key].author + "<br />";
+      libraryString += "Pages: " + this.bookshelf[key].numberOfPages + "<br />";
+      libraryString += "Date Published: "+ this.bookshelf[key].publishDate + "<br />";
+    };
+    document.getElementById("details").innerHTML = libraryString;
+}
+
+// Library.prototype.showLibraryDetails = function () {
+//     this.bookshelf.forEach(function(element) {
+//       console.log(element);
+//     });
+//     return true
+// }
+
+
+
+
 
 // Add a book to my Library's bookshelf.
 // Return true if it is not already added, false if already added.
@@ -182,6 +205,7 @@ Library.prototype.getRandomAuthor = function(){
 document.addEventListener("DOMContentLoaded", function(e){
   window.gLibrary = new Library();
   gLibrary.getLibrary();
+  gLibrary.showLibraryDetails();
 });
 
 // Remind use to save Library before closing page.
@@ -209,12 +233,7 @@ var testBookArray =
     testBook5
   ];
 
-document.getElementById("demo").innerHTML = "Current Books:" + "<br/>";
-document.getElementById("demo").innerHTML += testBook1.title + "<br/>";
-document.getElementById("demo").innerHTML += testBook2.title + "</br>";
-document.getElementById("demo").innerHTML += testBook3.title + "</br>";
-document.getElementById("demo").innerHTML += testBook4.title + "</br>";
-document.getElementById("demo").innerHTML += testBook5.title + "</br>";
+
 
 // LOCAL STORAGE //
 Library.prototype.storeLibrary = function (){
