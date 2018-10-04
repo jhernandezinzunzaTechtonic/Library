@@ -33,9 +33,8 @@ Library.prototype.showBookDetails = function (oBook) {
       bookString += "Pages: " + oBook.numberOfPages + "<br />";
       bookString += "Date Published: "+ oBook.publishDate + "<br />";
   document.getElementById("details").innerHTML = bookString;
+  return true
 }
-
-
 // Display the entire library's details on page.
 Library.prototype.showLibraryDetails = function (libraryArray) {
   var libraryString = "<h1>Library:</h1>";
@@ -46,14 +45,16 @@ Library.prototype.showLibraryDetails = function (libraryArray) {
       libraryString += "Date Published: "+ libraryArray[key].publishDate + "<br />";
     };
     document.getElementById("details").innerHTML = libraryString;
+    return true
 }
 
-// Library.prototype.showLibraryDetails = function () {
-//     this.bookshelf.forEach(function(element) {
+// Library.prototype.showLibraryDetails = function (libraryArray) {
+//     libraryArray.forEach(function(element) {
 //       console.log(element);
 //     });
 //     return true
 // }
+
 
 
 // Add a book to my Library's bookshelf.
@@ -180,6 +181,7 @@ Library.prototype.addBooks = function(booksArray){
   // }
   //   console.log("Please enter in a proper array.");
   // }
+
 
 //Find the distinct author's name from all books in your library.
 //Return array of strings of the names of all distinct authors, empty array if no books exist or no authors exist.
