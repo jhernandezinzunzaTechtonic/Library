@@ -242,7 +242,7 @@ Library.prototype.getLibrary = function () {
       for (var i=0; i<item.length; i++) {
         item[i] = new book(item[i].title, item[i].author, item[i].numberOfPages, item[i].publishDate);
       }
-
+      this.bookshelf = item;
   } else {
       document.getElementById("local").innerHTML = "Sorry, your browser does not support Web Storage...";
   }
