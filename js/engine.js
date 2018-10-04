@@ -37,13 +37,13 @@ Library.prototype.showBookDetails = function (oBook) {
 
 
 // Display the entire library's details on page.
-Library.prototype.showLibraryDetails = function () {
+Library.prototype.showLibraryDetails = function (libraryArray) {
   var libraryString = "<h1>Library:</h1>";
-    for (var key in this.bookshelf) {
-      libraryString += "<h3> Title: " + this.bookshelf[key].title + "</h3>" ;
-      libraryString += "Author: " + this.bookshelf[key].author + "<br />";
-      libraryString += "Pages: " + this.bookshelf[key].numberOfPages + "<br />";
-      libraryString += "Date Published: "+ this.bookshelf[key].publishDate + "<br />";
+    for (var key in libraryArray) {
+      libraryString += "<h3> Title: " + libraryArray[key].title + "</h3>" ;
+      libraryString += "Author: " + libraryArray[key].author + "<br />";
+      libraryString += "Pages: " + libraryArray[key].numberOfPages + "<br />";
+      libraryString += "Date Published: "+ libraryArray[key].publishDate + "<br />";
     };
     document.getElementById("details").innerHTML = libraryString;
 }
@@ -54,9 +54,6 @@ Library.prototype.showLibraryDetails = function () {
 //     });
 //     return true
 // }
-
-
-
 
 
 // Add a book to my Library's bookshelf.
@@ -71,6 +68,9 @@ Library.prototype.addBook = function (oBook) {
   } else {
     this.bookshelf.push(oBook);
     console.log("You succesfully added something to the library!");
+
+    // Update library information on page.
+    this.showLibraryDetails(this.bookshelf);
     // Update local storage
     this.storeLibrary();
     return true;
@@ -84,11 +84,14 @@ Library.prototype.removeBookByTitle = function (title){
     if (title === this.bookshelf[i]["title"]){
       this.bookshelf.splice(i, 1);
       console.log("Book " + "\""+title+"\"" + " successfully removed.");
+
+      // Update library information on page.
+      this.showLibraryDetails(this.bookshelf);
+      // Update local storage
+      this.storeLibrary();
       return true;
     } else {
       console.log("There is no book " + "\""+title+"\"" + " in the library");
-      // Update local storage
-      this.storeLibrary();
       return false
     }
   }
@@ -103,6 +106,9 @@ Library.prototype.removeBookByAuthor = function(authorName){
     if (authorName == this.bookshelf[i]["author"]){
       this.bookshelf.splice(i, 1);
       console.log("Books by " + "\""+authorName+"\"" + " successfully removed.");
+
+      // Update library information on page.
+      this.showLibraryDetails(this.bookshelf);
       // Update local storage
       this.storeLibrary();
       return true;
@@ -116,6 +122,9 @@ Library.prototype.removeBookByAuthor = function(authorName){
 // Return a book object if you find a book, null if there are no books.
 Library.prototype.getRandomBook = function () {
   var randomIndex = Math.floor(Math.random() * Math.floor(this.bookshelf.length));
+
+  //Display book information on page.
+  this.showBookDetails(this.bookshelf[randomIndex]);
   return this.bookshelf[randomIndex];
 }
 
@@ -125,6 +134,9 @@ Library.prototype.getBookByTitle = function(title){
     var titleResults = this.bookshelf.filter(function(titlesSearched) {
         return titlesSearched.title.indexOf(title) > -1;
       });
+
+      // Update library information on page.
+      this.showLibraryDetails(titleResults);
       console.log(titleResults);
       return false;
     }
@@ -135,6 +147,9 @@ Library.prototype.getBookByAuthor = function(authorName){
   var authorResults = this.bookshelf.filter(function(authorsSearched) {
       return authorsSearched.author.indexOf(authorName) > -1;
     });
+
+    // Update library information on page.
+    this.showLibraryDetails(authorResults);
     console.log(authorResults);
     return false;
 }
@@ -205,7 +220,7 @@ Library.prototype.getRandomAuthor = function(){
 document.addEventListener("DOMContentLoaded", function(e){
   window.gLibrary = new Library();
   gLibrary.getLibrary();
-  gLibrary.showLibraryDetails();
+  gLibrary.showLibraryDetails(gLibrary.bookshelf);
 });
 
 // Remind use to save Library before closing page.
