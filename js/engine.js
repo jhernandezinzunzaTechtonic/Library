@@ -7,12 +7,14 @@
       return instance;
     }
     instance = this;
+    this.bookshelf = new Array();
   };
 })();
 
-function Library(){
-  this.bookshelf = new Array();
-};
+// OLD CONSTRUCTOR
+// function Library(){
+//   this.bookshelf = new Array();
+// };
 
 //Additional functions///
 // Check to see if book is already in the library.
@@ -25,7 +27,7 @@ Library.prototype.isBookInLibrary = function (oBook){
 };
 
 // Display book details on page.
-Library.prototype.showBookDetails = function () {
+Library.prototype.showLibraryDetails = function () {
   for(var i=0; i < this.bookshelf.length; i++) {
     for (var p in this.bookshelf[i]) {
       document.getElementById("details").innerHTML += p + ": " + this.bookshelf[i][p] + "<br />";
@@ -46,6 +48,8 @@ Library.prototype.addBook = function (oBook) {
   } else {
     this.bookshelf.push(oBook);
     console.log("You succesfully added something to the library!");
+    // Update local storage
+    this.storeLibrary();
     return true;
     }
 };
@@ -60,6 +64,8 @@ Library.prototype.removeBookByTitle = function (title){
       return true;
     } else {
       console.log("There is no book " + "\""+title+"\"" + " in the library");
+      // Update local storage
+      this.storeLibrary();
       return false
     }
   }
@@ -74,6 +80,8 @@ Library.prototype.removeBookByAuthor = function(authorName){
     if (authorName == this.bookshelf[i]["author"]){
       this.bookshelf.splice(i, 1);
       console.log("Books by " + "\""+authorName+"\"" + " successfully removed.");
+      // Update local storage
+      this.storeLibrary();
       return true;
     }
   }
@@ -120,6 +128,8 @@ Library.prototype.addBooks = function(booksArray){
       console.log("Sorry, " + "\""+booksArray[i].title+"\"" +  " is already in our library");
     }
   }
+  // Update local storage
+  this.storeLibrary();
   return console.log(counter + " new books were added.");
 }
 
@@ -160,11 +170,27 @@ Library.prototype.getRandomAuthor = function(){
   return this.bookshelf[randomIndex].author;
 }
 
-// console.log(window.bookshelf);
+
+
+
+
+
+
+// EVENT LISTENERS //
+
+// Create instance of library.
 document.addEventListener("DOMContentLoaded", function(e){
   window.gLibrary = new Library();
+  gLibrary.getLibrary();
 });
 
+// Remind use to save Library before closing page.
+window.addEventListener("beforeunload", function (event) {
+  // Cancel the event as stated by the standard.
+  event.preventDefault();
+  // Chrome requires returnValue to be set.
+  event.returnValue = '';
+});
 
 
 // TESTING GROUND //
@@ -197,7 +223,7 @@ Library.prototype.storeLibrary = function (){
       // Store
       var JSONLibrary = JSON.stringify(this.bookshelf);
       window.localStorage.setItem("testLibrary", JSONLibrary);
-      console.log(JSONLibrary);
+      // console.log(JSONLibrary);
   } else {
       document.getElementById("local").innerHTML = "Sorry, your browser does not support Web Storage...";
   }
@@ -208,10 +234,15 @@ Library.prototype.getLibrary = function () {
   if (typeof(Storage) !== "undefined") {
       // Retrieve
       var getItem = window.localStorage.getItem("testLibrary");
-      console.log(getItem);
+      // console.log(getItem);
       var item = JSON.parse(getItem);
+      console.log("Library succesfully loaded.");
       console.log(item);
-      this.bookshelf = item;
+
+      for (var i=0; i<item.length; i++) {
+        item[i] = new book(item[i].title, item[i].author, item[i].numberOfPages, item[i].publishDate);
+      }
+
   } else {
       document.getElementById("local").innerHTML = "Sorry, your browser does not support Web Storage...";
   }
