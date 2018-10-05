@@ -19,8 +19,10 @@
 //Additional functions///
 // Check to see if book is already in the library.
 Library.prototype.isBookInLibrary = function (oBook){
+  var bookToCheck = oBook["title"].trim().toLowerCase();
   for (i=0; i < this.bookshelf.length; i++)
-    if (oBook.title === this.bookshelf[i].title){
+    bookInLibrary = this.bookshelf[i].title.trim().toLowerCase();
+    if ( bookToCheck === bookInLibrary ){
       return true
     }
     return false
@@ -35,6 +37,14 @@ Library.prototype.showBookDetails = function (oBook) {
   document.getElementById("details").innerHTML = bookString;
   return true
 }
+// // Make search entries all equal.
+// Library.prototype.searchifyString = function (searchEntry) {
+//   searchEntry = searchEntry.trim();
+//   searchEntry = searchEntry.toLowerCase();
+//   return searchEntry;
+// }
+
+
 // Display the entire library's details on page.
 Library.prototype.showLibraryDetails = function (libraryArray) {
   var libraryString = "<h1>Library:</h1>";
@@ -81,8 +91,10 @@ Library.prototype.addBook = function (oBook) {
 // Remove a book from the library using its getBookByTitle
 //  Return true if book is removed, false if no books match.
 Library.prototype.removeBookByTitle = function (title){
+  var titleToCheck = title.trim().toLowerCase();
   for ( var i=0; i < this.bookshelf.length; i++){
-    if (title === this.bookshelf[i]["title"]){
+    var titleInLibrary = this.bookshelf[i]["title"].trim().toLowerCase();
+    if (titleToCheck === titleInLibrary){
       this.bookshelf.splice(i, 1);
       console.log("Book " + "\""+title+"\"" + " successfully removed.");
 
@@ -101,10 +113,10 @@ Library.prototype.removeBookByTitle = function (title){
 // Remove specific book or books by a certain author.
 // Return true if book is removed and false if no books match.
 Library.prototype.removeBookByAuthor = function(authorName){
+  var authorToCheck = title.trim().toLowerCase();
   for (var i=0; i < this.bookshelf.length; i++){
-    // console.log(authorName);
-    // console.log(this.bookshelf[i]["author"]);
-    if (authorName == this.bookshelf[i]["author"]){
+    var authorInLibrary = this.bookshelf[i]["author"].trim().toLowerCase();
+    if (authorToCheck == authorInLibrary){
       this.bookshelf.splice(i, 1);
       console.log("Books by " + "\""+authorName+"\"" + " successfully removed.");
 
@@ -240,6 +252,7 @@ var testBook2 = new book("testBook2", "Charles", 1, "2019");
 var testBook3 = new book("testBook3", "Eddie", 10, "2012");
 var testBook4 = new book("testBook4", "Eddie", 14, "2015");
 var testBook5 = new book("testBook5", "Lee", 14, "2015");
+var StevenKing1 = new book("    The Shining", "Steven King", 210, "October 15, 1995");
 
 var testBookArray =
   [
