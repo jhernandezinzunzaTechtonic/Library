@@ -19,7 +19,16 @@ book.prototype.editBook = function(oBook){
     this.publishDate = oBook.publishDate.trim() || this.publishDate;
   }
   // Update library information on page.
-  this.showLibraryDetails(this.bookshelf);
+  gLibrary.showLibraryDetails(this.bookshelf);
   // Update local storage
-  this.storeLibrary();
+  gLibrary.storeLibrary();
 };
+
+// Function to format inputs in book objects, right now it simply trims inputs.
+book.prototype.formatBook = function(oBook) {
+  oBook.title = oBook.title.trim();
+  oBook.author = oBook.author.trim();
+  oBook.numberOfPages = oBook.numberOfPages;
+  oBook.publishDate = oBook.publishDate;
+  return oBook
+}

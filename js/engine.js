@@ -19,10 +19,8 @@
 //Additional functions///
 // Check to see if book is already in the library.
 Library.prototype.isBookInLibrary = function (oBook){
-  var bookToCheck = oBook["title"].trim().toLowerCase();
   for (i=0; i < this.bookshelf.length; i++)
-    bookInLibrary = this.bookshelf[i].title.trim().toLowerCase();
-    if ( bookToCheck === bookInLibrary ){
+    if ( oBook.title.toLowerCase() === this.bookshelf[i].title.trim().toLowerCase() ){
       return true
     }
     return false
@@ -70,14 +68,16 @@ Library.prototype.showLibraryDetails = function (libraryArray) {
 // Add a book to my Library's bookshelf.
 // Return true if it is not already added, false if already added.
 Library.prototype.addBook = function (oBook) {
-  if (this.isBookInLibrary(oBook)) {
+  // Make sure title, author and date dont have extra white space
+  var newBook = oBook.formatBook(oBook);
+  if (this.isBookInLibrary(newBook)) {
     console.log("Sorry, " + "\""+oBook.title+"\"" +  " is already in our library");
     return false;
-  } else if (typeof oBook !== "object") {
+  } else if (typeof newBook !== "object") {
     console.log("Please enter in a book object");
     return false;
   } else {
-    this.bookshelf.push(oBook);
+    this.bookshelf.push(newBook);
     console.log("You succesfully added something to the library!");
 
     // Update library information on page.
